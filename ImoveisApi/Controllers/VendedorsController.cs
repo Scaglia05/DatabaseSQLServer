@@ -9,22 +9,22 @@ using ImoveisApi.Models;
 
 namespace ImoveisApi.Controllers
 {
-    public class ClientesController : Controller
+    public class VendedorsController : Controller
     {
         private readonly Context _context;
 
-        public ClientesController(Context context)
+        public VendedorsController(Context context)
         {
             _context = context;
         }
 
-        // GET: Clientes
+        // GET: Vendedors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cliente.ToListAsync());
+            return View(await _context.Vendedor.ToListAsync());
         }
 
-        // GET: Clientes/Details/5
+        // GET: Vendedors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace ImoveisApi.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Cliente
+            var vendedor = await _context.Vendedor
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (cliente == null)
+            if (vendedor == null)
             {
                 return NotFound();
             }
 
-            return View(cliente);
+            return View(vendedor);
         }
 
-        // GET: Clientes/Create
+        // GET: Vendedors/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Clientes/Create
+        // POST: Vendedors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,CPF,Endereco,DataNascimento,Email_Cliente")] Cliente cliente)
+        public async Task<IActionResult> Create([Bind("Id,Nome_Vendedor,CRECI_Vendedor,Telefone_Vendedor,Email_Vendedor")] Vendedor vendedor)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cliente);
+                _context.Add(vendedor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(cliente);
+            return View(vendedor);
         }
 
-        // GET: Clientes/Edit/5
+        // GET: Vendedors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace ImoveisApi.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Cliente.FindAsync(id);
-            if (cliente == null)
+            var vendedor = await _context.Vendedor.FindAsync(id);
+            if (vendedor == null)
             {
                 return NotFound();
             }
-            return View(cliente);
+            return View(vendedor);
         }
 
-        // POST: Clientes/Edit/5
+        // POST: Vendedors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,CPF,Endereco,DataNascimento,Email_Cliente")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome_Vendedor,CRECI_Vendedor,Telefone_Vendedor,Email_Vendedor")] Vendedor vendedor)
         {
-            if (id != cliente.Id)
+            if (id != vendedor.Id)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace ImoveisApi.Controllers
             {
                 try
                 {
-                    _context.Update(cliente);
+                    _context.Update(vendedor);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClienteExists(cliente.Id))
+                    if (!VendedorExists(vendedor.Id))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace ImoveisApi.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(cliente);
+            return View(vendedor);
         }
 
-        // GET: Clientes/Delete/5
+        // GET: Vendedors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,34 +123,34 @@ namespace ImoveisApi.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Cliente
+            var vendedor = await _context.Vendedor
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (cliente == null)
+            if (vendedor == null)
             {
                 return NotFound();
             }
 
-            return View(cliente);
+            return View(vendedor);
         }
 
-        // POST: Clientes/Delete/5
+        // POST: Vendedors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cliente = await _context.Cliente.FindAsync(id);
-            if (cliente != null)
+            var vendedor = await _context.Vendedor.FindAsync(id);
+            if (vendedor != null)
             {
-                _context.Cliente.Remove(cliente);
+                _context.Vendedor.Remove(vendedor);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClienteExists(int id)
+        private bool VendedorExists(int id)
         {
-            return _context.Cliente.Any(e => e.Id == id);
+            return _context.Vendedor.Any(e => e.Id == id);
         }
     }
 }

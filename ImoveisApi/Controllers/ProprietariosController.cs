@@ -9,22 +9,22 @@ using ImoveisApi.Models;
 
 namespace ImoveisApi.Controllers
 {
-    public class ClientesController : Controller
+    public class ProprietariosController : Controller
     {
         private readonly Context _context;
 
-        public ClientesController(Context context)
+        public ProprietariosController(Context context)
         {
             _context = context;
         }
 
-        // GET: Clientes
+        // GET: Proprietarios
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cliente.ToListAsync());
+            return View(await _context.Proprietario.ToListAsync());
         }
 
-        // GET: Clientes/Details/5
+        // GET: Proprietarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace ImoveisApi.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (cliente == null)
+            var proprietario = await _context.Proprietario
+                .FirstOrDefaultAsync(m => m.Id_Proprietario == id);
+            if (proprietario == null)
             {
                 return NotFound();
             }
 
-            return View(cliente);
+            return View(proprietario);
         }
 
-        // GET: Clientes/Create
+        // GET: Proprietarios/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Clientes/Create
+        // POST: Proprietarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,CPF,Endereco,DataNascimento,Email_Cliente")] Cliente cliente)
+        public async Task<IActionResult> Create([Bind("Id_Proprietario,Nome_Proprietario,CPF_Proprietario,Telefone_Proprietario")] Proprietario proprietario)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cliente);
+                _context.Add(proprietario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(cliente);
+            return View(proprietario);
         }
 
-        // GET: Clientes/Edit/5
+        // GET: Proprietarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace ImoveisApi.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Cliente.FindAsync(id);
-            if (cliente == null)
+            var proprietario = await _context.Proprietario.FindAsync(id);
+            if (proprietario == null)
             {
                 return NotFound();
             }
-            return View(cliente);
+            return View(proprietario);
         }
 
-        // POST: Clientes/Edit/5
+        // POST: Proprietarios/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,CPF,Endereco,DataNascimento,Email_Cliente")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id_Proprietario,Nome_Proprietario,CPF_Proprietario,Telefone_Proprietario")] Proprietario proprietario)
         {
-            if (id != cliente.Id)
+            if (id != proprietario.Id_Proprietario)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace ImoveisApi.Controllers
             {
                 try
                 {
-                    _context.Update(cliente);
+                    _context.Update(proprietario);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClienteExists(cliente.Id))
+                    if (!ProprietarioExists(proprietario.Id_Proprietario))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace ImoveisApi.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(cliente);
+            return View(proprietario);
         }
 
-        // GET: Clientes/Delete/5
+        // GET: Proprietarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,34 +123,34 @@ namespace ImoveisApi.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (cliente == null)
+            var proprietario = await _context.Proprietario
+                .FirstOrDefaultAsync(m => m.Id_Proprietario == id);
+            if (proprietario == null)
             {
                 return NotFound();
             }
 
-            return View(cliente);
+            return View(proprietario);
         }
 
-        // POST: Clientes/Delete/5
+        // POST: Proprietarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cliente = await _context.Cliente.FindAsync(id);
-            if (cliente != null)
+            var proprietario = await _context.Proprietario.FindAsync(id);
+            if (proprietario != null)
             {
-                _context.Cliente.Remove(cliente);
+                _context.Proprietario.Remove(proprietario);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClienteExists(int id)
+        private bool ProprietarioExists(int id)
         {
-            return _context.Cliente.Any(e => e.Id == id);
+            return _context.Proprietario.Any(e => e.Id_Proprietario == id);
         }
     }
 }

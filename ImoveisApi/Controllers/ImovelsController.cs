@@ -9,22 +9,22 @@ using ImoveisApi.Models;
 
 namespace ImoveisApi.Controllers
 {
-    public class ImovelController : Controller
+    public class ImovelsController : Controller
     {
         private readonly Context _context;
 
-        public ImovelController(Context context)
+        public ImovelsController(Context context)
         {
             _context = context;
         }
 
-        // GET: Imovel
+        // GET: Imovels
         public async Task<IActionResult> Index()
         {
             return View(await _context.Imovel.ToListAsync());
         }
 
-        // GET: Imovel/Details/5
+        // GET: Imovels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -42,18 +42,18 @@ namespace ImoveisApi.Controllers
             return View(imovel);
         }
 
-        // GET: Imovel/Create
+        // GET: Imovels/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Imovel/Create
+        // POST: Imovels/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Imovel imovel)
+        public async Task<IActionResult> Create([Bind("Id,Endereco_Imovel,AreaTotal_Imovel,Tipo,Status,ValorTotal")] Imovel imovel)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace ImoveisApi.Controllers
             return View(imovel);
         }
 
-        // GET: Imovel/Edit/5
+        // GET: Imovels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,12 +80,12 @@ namespace ImoveisApi.Controllers
             return View(imovel);
         }
 
-        // POST: Imovel/Edit/5
+        // POST: Imovels/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Imovel imovel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Endereco_Imovel,AreaTotal_Imovel,Tipo,Status,ValorTotal")] Imovel imovel)
         {
             if (id != imovel.Id)
             {
@@ -115,7 +115,7 @@ namespace ImoveisApi.Controllers
             return View(imovel);
         }
 
-        // GET: Imovel/Delete/5
+        // GET: Imovels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,7 +133,7 @@ namespace ImoveisApi.Controllers
             return View(imovel);
         }
 
-        // POST: Imovel/Delete/5
+        // POST: Imovels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

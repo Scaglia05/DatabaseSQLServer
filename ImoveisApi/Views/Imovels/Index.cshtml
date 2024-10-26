@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ImoveisApi.Models.Cliente>
+﻿@model IEnumerable<ImoveisApi.Models.Imovel>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,19 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nome)
+                @Html.DisplayNameFor(model => model.Endereco_Imovel)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CPF)
+                @Html.DisplayNameFor(model => model.AreaTotal_Imovel)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Endereco)
+                @Html.DisplayNameFor(model => model.Tipo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DataNascimento)
+                @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email_Cliente)
+                @Html.DisplayNameFor(model => model.ValorTotal)
             </th>
             <th></th>
         </tr>
@@ -34,19 +34,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Nome)
+                @Html.DisplayFor(modelItem => item.Endereco_Imovel)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CPF)
+                @Html.DisplayFor(modelItem => item.AreaTotal_Imovel)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Endereco)
+                @Html.DisplayFor(modelItem => item.Tipo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DataNascimento)
+                @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Email_Cliente)
+                @Html.DisplayFor(modelItem => item.ValorTotal)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
