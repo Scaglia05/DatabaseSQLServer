@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace ImoveisApi.Migrations
 {
     /// <inheritdoc />
-    public partial class ImoveisMigracao : Migration
+    public partial class Imoveis : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +22,7 @@ namespace ImoveisApi.Migrations
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CPF = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Endereco = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataNascimento = table.Column<DateOnly>(type: "date", nullable: false),
                     Email_Cliente = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -112,6 +114,32 @@ namespace ImoveisApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "VendedorImovel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Vendedor = table.Column<int>(type: "int", nullable: false),
+                    Imovel = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VendedorImovel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VendedorImovel_Imovel_Imovel",
+                        column: x => x.Imovel,
+                        principalTable: "Imovel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VendedorImovel_Vendedor_Vendedor",
+                        column: x => x.Vendedor,
+                        principalTable: "Vendedor",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pagamento",
                 columns: table => new
                 {
@@ -130,6 +158,15 @@ namespace ImoveisApi.Migrations
                         principalTable: "Contrato",
                         principalColumn: "Id_Contrato",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Cliente",
+                columns: new[] { "Id", "CPF", "DataNascimento", "Email_Cliente", "Endereco", "Nome" },
+                values: new object[,]
+                {
+                    { 1, "123.456.789.10", new DateOnly(2002, 10, 10), "cliente@gmail.com", "Av.12a, Araras-SP", "Guilherme" },
+                    { 2, "423.391.035-68", new DateOnly(2008, 3, 1), "Marli42@gmail.com", "347 Carvalho Rua, Taubaté, Guiné", "João Lucas Pereira" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -151,6 +188,16 @@ namespace ImoveisApi.Migrations
                 name: "IX_Pagamento_Contrato",
                 table: "Pagamento",
                 column: "Contrato");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VendedorImovel_Imovel",
+                table: "VendedorImovel",
+                column: "Imovel");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VendedorImovel_Vendedor",
+                table: "VendedorImovel",
+                column: "Vendedor");
         }
 
         /// <inheritdoc />
@@ -160,10 +207,13 @@ namespace ImoveisApi.Migrations
                 name: "Pagamento");
 
             migrationBuilder.DropTable(
-                name: "Vendedor");
+                name: "VendedorImovel");
 
             migrationBuilder.DropTable(
                 name: "Contrato");
+
+            migrationBuilder.DropTable(
+                name: "Vendedor");
 
             migrationBuilder.DropTable(
                 name: "Cliente");

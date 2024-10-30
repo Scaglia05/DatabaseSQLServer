@@ -18,7 +18,7 @@ namespace ImoveisApi.Models {
         public string Endereco { get; set; }
 
         [DisplayName("Data de Nascimento")]
-        public DateTime DataNascimento { get; set; }
+        public DateOnly DataNascimento { get; set; }
 
         [DisplayName("Email")]
         public string Email_Cliente{ get; set; }

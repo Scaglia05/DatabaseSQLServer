@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ImoveisApi.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20241026015751_ImoveisMigracao")]
-    partial class ImoveisMigracao
+    [Migration("20241030002120_Imoveis")]
+    partial class Imoveis
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,8 +37,8 @@ namespace ImoveisApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DataNascimento")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("DataNascimento")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email_Cliente")
                         .IsRequired()
@@ -55,6 +55,26 @@ namespace ImoveisApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cliente");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CPF = "123.456.789.10",
+                            DataNascimento = new DateOnly(2002, 10, 10),
+                            Email_Cliente = "cliente@gmail.com",
+                            Endereco = "Av.12a, Araras-SP",
+                            Nome = "Guilherme"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CPF = "423.391.035-68",
+                            DataNascimento = new DateOnly(2008, 3, 1),
+                            Email_Cliente = "Marli42@gmail.com",
+                            Endereco = "347 Carvalho Rua, Taubaté, Guiné",
+                            Nome = "João Lucas Pereira"
+                        });
                 });
 
             modelBuilder.Entity("ImoveisApi.Models.Contrato", b =>
@@ -197,6 +217,29 @@ namespace ImoveisApi.Migrations
                     b.ToTable("Vendedor");
                 });
 
+            modelBuilder.Entity("ImoveisApi.Models.VendedorImovel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Imovel")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Vendedor")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Imovel");
+
+                    b.HasIndex("Vendedor");
+
+                    b.ToTable("VendedorImovel");
+                });
+
             modelBuilder.Entity("ImoveisApi.Models.Contrato", b =>
                 {
                     b.HasOne("ImoveisApi.Models.Cliente", "Id_Cliente")
@@ -236,6 +279,25 @@ namespace ImoveisApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Id_Contrato");
+                });
+
+            modelBuilder.Entity("ImoveisApi.Models.VendedorImovel", b =>
+                {
+                    b.HasOne("ImoveisApi.Models.Imovel", "Imovel_Id")
+                        .WithMany()
+                        .HasForeignKey("Imovel")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ImoveisApi.Models.Vendedor", "Vendedor_Id")
+                        .WithMany()
+                        .HasForeignKey("Vendedor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Imovel_Id");
+
+                    b.Navigation("Vendedor_Id");
                 });
 #pragma warning restore 612, 618
         }
